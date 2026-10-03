@@ -7,7 +7,7 @@ get a live feed running in an afternoon.
 
 ## Live services
 
-| | |
+| Service | Description |
 | --- | --- |
 | [gtfs.zone](https://gtfs.zone) | Homepage |
 | [edit.gtfs.zone](https://edit.gtfs.zone) | GTFS editor in the browser |
