@@ -1,0 +1,6 @@
+{
+  "name": "gtfs.zone vulnerability scan (pnpm)",
+  "description": "osv-scanner on pnpm-lock.yaml, daily and on every push.",
+  "categories": ["JavaScript", "TypeScript"],
+  "filePatterns": ["pnpm-lock.yaml$"]
+}
