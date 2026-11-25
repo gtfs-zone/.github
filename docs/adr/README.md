@@ -17,3 +17,4 @@ with the change it describes, and add it below.
 | [0005](0005-pr-flow.md) | Every change to main goes through a pull request | accepted |
 | [0006](0006-versioned-deploys.md) | Versioned deploys and per-PR previews on Cloudflare | proposed |
 | [0007](0007-testing-policy.md) | Vitest for logic, Playwright and Argos for UI | accepted |
+| [0008](0008-reusable-workflows.md) | Reusable workflows in the org repo | accepted |
