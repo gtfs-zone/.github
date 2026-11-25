@@ -1,0 +1,32 @@
+name: Agents check
+
+# Fails while the shared block in the caller's AGENTS.md differs from
+# docs/agents-shared.md on main of gtfs-zone/.github.
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  agents:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          path: repo
+          persist-credentials: false
+
+      - name: Checkout gtfs-zone/.github
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          repository: gtfs-zone/.github
+          ref: main
+          path: org
+          persist-credentials: false
+
+      - name: Check shared block
+        run: sh org/scripts/sync-agents.sh --check repo

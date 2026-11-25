@@ -1,0 +1,50 @@
+name: Docs check
+
+# Lints Markdown with markdownlint-cli2 and checks its links with lychee.
+# markdownlint-cli2 reads the caller's .markdownlint-cli2.yaml when present;
+# lychee reads its lychee.toml.
+
+on:
+  workflow_call:
+    inputs:
+      globs:
+        type: string
+        default: |
+          **/*.md
+          !node_modules
+          !CHANGELOG.md
+
+permissions:
+  contents: read
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Lint
+        uses: DavidAnson/markdownlint-cli2-action@3ce8f712b5d8f31acd8e201be6d97e3d2bb23eb7 # v25.1.0
+        with:
+          globs: ${{ inputs.globs }}
+
+  links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --no-progress --exclude-path node_modules --exclude-path CHANGELOG.md './**/*.md'
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
