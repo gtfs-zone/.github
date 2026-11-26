@@ -34,9 +34,12 @@ Chosen option: pull requests with a merge commit.
   repo's required checks. It also turns off squash and rebase merges and
   turns on head branch deletion in every repo.
 - Release bumps (`cz bump`) run in the reusable `release.yml`, dispatched
-  by hand. It bypasses the ruleset as the GitHub Actions app, pushes the
-  bump commit and tag, then dispatches the deploy workflow on the tag,
-  since a tag pushed with `GITHUB_TOKEN` starts no workflow.
+  by hand. It pushes the bump commit and tag with a token of the
+  org-owned `gtfs-zone-release` GitHub App, which is the ruleset's bypass
+  actor. A repo ruleset only accepts apps owned by the org, so the GitHub
+  Actions app cannot be one, and a tag pushed with `GITHUB_TOKEN` would
+  start no deploy. The app's client ID (`RELEASE_APP_CLIENT_ID` variable)
+  and private key (`RELEASE_APP_PRIVATE_KEY` secret) are org-wide.
 
 ### Consequences
 

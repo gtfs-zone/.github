@@ -1,6 +1,6 @@
 {
   "name": "gtfs.zone release",
-  "description": "cz bump on main, push the tag, then dispatch the deploy, from gtfs-zone/.github.",
+  "description": "cz bump on main and the tag push, from gtfs-zone/.github.",
   "categories": ["JavaScript", "TypeScript", "Python"],
   "filePatterns": ["pyproject.toml$", "\\.cz\\.toml$"]
 }
