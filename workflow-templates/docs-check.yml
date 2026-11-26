@@ -1,0 +1,16 @@
+name: Docs check
+
+# On a push to a branch or a pull request: lints Markdown and checks its links.
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    uses: gtfs-zone/.github/.github/workflows/docs-check.yml@6cfbf656f4bddd65d5a5d9bd7a1ea4302a9d870a # main

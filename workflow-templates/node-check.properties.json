@@ -1,0 +1,6 @@
+{
+  "name": "gtfs.zone node check",
+  "description": "pnpm check and the commit check, from gtfs-zone/.github.",
+  "categories": ["JavaScript", "TypeScript"],
+  "filePatterns": ["package.json$"]
+}

@@ -27,7 +27,7 @@ and never compute their own.
   - Up otherwise
   - Inaccessible (`unknown`) when nothing could be checked
   - Without a checked schedule, the realtime roles decide
-- **Wording.** "Down since <date>".
+- **Wording.** "Down since `<date>`".
 - **Name.** The first non-empty of, static rows first:
   1. Transitland operator
   2. Mobility Database provider, its "(feed_name)" moved to `subtitle`
