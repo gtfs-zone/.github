@@ -2,3 +2,5 @@ config:
   MD013:
     tables: false
     code_blocks: false
+  # docs/agents-shared.md is a fragment spliced into each repo's AGENTS.md.
+  MD041: false
