@@ -1,0 +1,20 @@
+name: Release
+
+# Run by hand: bumps the version on main with cz bump, pushes the bump commit
+# and its tag, then dispatches the deploy workflow on the tag. Set
+# deploy-workflow to empty when nothing deploys.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    uses: gtfs-zone/.github/.github/workflows/release.yml@cb9bfb961afb84655f78d4bcb7df5e1009b889e4 # main
+    permissions:
+      contents: write
+      actions: write
+    with:
+      deploy-workflow: pages.yml

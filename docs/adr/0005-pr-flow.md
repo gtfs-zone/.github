@@ -27,9 +27,16 @@ Chosen option: pull requests with a merge commit.
 - Merge with a merge commit once the required checks (check, commit check,
   Argos where present) pass. The branch is deleted on merge.
 - Renovate PRs follow the same flow.
-- An org ruleset on `main` enforces it: PR required, required checks, no
-  force push. Release bumps (`cz bump`) run in a `release.yml`
-  workflow_dispatch job that bypasses the ruleset as the GitHub Actions app.
+- A ruleset on `main` in each repo enforces it: PR required (no approval,
+  merge commit only), required checks, no force push or deletion. Org
+  rulesets need GitHub Team, so `scripts/apply-settings.sh` writes the same
+  ruleset into each repo listed in `settings/rulesets.json`, with that
+  repo's required checks. It also turns off squash and rebase merges and
+  turns on head branch deletion in every repo.
+- Release bumps (`cz bump`) run in the reusable `release.yml`, dispatched
+  by hand. It bypasses the ruleset as the GitHub Actions app, pushes the
+  bump commit and tag, then dispatches the deploy workflow on the tag,
+  since a tag pushed with `GITHUB_TOKEN` starts no workflow.
 
 ### Consequences
 
