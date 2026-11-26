@@ -1,0 +1,6 @@
+{
+  "name": "gtfs.zone vulnerability scan (uv)",
+  "description": "osv-scanner on uv.lock, daily and on every push.",
+  "categories": ["Python"],
+  "filePatterns": ["uv.lock$"]
+}

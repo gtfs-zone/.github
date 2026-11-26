@@ -1,0 +1,6 @@
+{
+  "name": "gtfs.zone docs check",
+  "description": "markdownlint-cli2 and lychee over the repo's Markdown.",
+  "categories": ["Markdown"],
+  "filePatterns": ["README.md$"]
+}
