@@ -1,21 +1,21 @@
 name: Release
 
-# Runs cz bump on main, pushes the bump commit and its tag, then dispatches
-# the caller's deploy workflow on that tag. A tag pushed with GITHUB_TOKEN
-# starts no workflow, a workflow_dispatch does. The push goes through because
-# the GitHub Actions app is a bypass actor in the main ruleset.
+# Runs cz bump on main and pushes the bump commit and its tag with a token of
+# the gtfs-zone-release GitHub App. The app is the bypass actor in the main
+# ruleset, and its tag push starts the caller's tag workflows (deploys).
 
 on:
   workflow_call:
     inputs:
-      # Workflow file to dispatch on the new tag, e.g. pages.yml. Empty: none.
-      deploy-workflow:
-        type: string
-        default: ""
       # Same version as the commit-msg hook in .pre-commit-config.yaml.
       commitizen-version:
         type: string
         default: "4.13.9"
+    secrets:
+      app-client-id:
+        required: true
+      app-private-key:
+        required: true
     outputs:
       tag:
         value: ${{ jobs.release.outputs.tag }}
@@ -31,46 +31,48 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      actions: write
-
     outputs:
       tag: ${{ steps.bump.outputs.tag }}
 
     steps:
-      # Full history for the changelog; credentials kept for the push.
+      # Scoped to the calling repo.
+      - name: App token
+        id: app
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ secrets.app-client-id }}
+          private-key: ${{ secrets.app-private-key }}
+          permission-contents: write
+
+      # Full history for the changelog; the app token is kept for the push.
       - name: Checkout
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           ref: main
           fetch-depth: 0
+          token: ${{ steps.app.outputs.token }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
+      # Commits and tags as the app's bot user.
       - name: Bump
         id: bump
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          bot="${APP_SLUG}[bot]"
+          bot_id=$(gh api "/users/${bot}" --jq .id)
+          git config user.name "$bot"
+          git config user.email "${bot_id}+${bot}@users.noreply.github.com"
           uvx --from "commitizen==${CZ_VERSION}" cz bump --yes
           tag=$(git describe --tags --exact-match)
           echo "[release] bumped to $tag"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
         env:
+          APP_SLUG: ${{ steps.app.outputs.app-slug }}
           CZ_VERSION: ${{ inputs.commitizen-version }}
+          GH_TOKEN: ${{ steps.app.outputs.token }}
 
       - name: Push
         run: git push --atomic origin main "refs/tags/${TAG}"
         env:
           TAG: ${{ steps.bump.outputs.tag }}
-
-      - name: Dispatch deploy
-        if: inputs.deploy-workflow != ''
-        run: gh workflow run "$DEPLOY" --ref "$TAG"
-        env:
-          DEPLOY: ${{ inputs.deploy-workflow }}
-          TAG: ${{ steps.bump.outputs.tag }}
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
