@@ -30,7 +30,7 @@ Chosen option: reusable workflows in `gtfs-zone/.github`.
 - `.github/workflows/` holds `node-check.yml`, `python-check.yml`,
   `commit-check.yml`, `vuln-scan.yml`, `docs-check.yml` (markdownlint-cli2
   and lychee), `agents-check.yml` (the shared AGENTS.md block) and
-  `release.yml` (`cz bump`, then the deploy, see ADR 0005).
+  `release.yml` (`cz bump` and the tag push, see ADR 0005).
 - Each repo keeps thin callers that set the triggers: `check.yml`
   (check, commit check, agents check) and `vuln-scan.yml`. Deploy
   workflows still call the repo's own `check.yml` before they build.
