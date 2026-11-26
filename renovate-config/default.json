@@ -1,0 +1,47 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Shared Renovate preset for gtfs-zone repos",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "schedule": ["* 0-3 * * 1"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-3 1 * *"]
+  },
+  "packageRules": [
+    {
+      "description": "npm: one weekly PR for minor and patch updates",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "npm dependencies"
+    },
+    {
+      "description": "Python (uv): one weekly PR for minor and patch updates",
+      "matchManagers": ["pep621"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "Python dependencies"
+    },
+    {
+      "description": "GitHub Actions: one weekly PR, majors included",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "description": "Org reusable workflows: a PR as soon as gtfs-zone/.github main moves",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["gtfs-zone/.github"],
+      "groupName": "org workflows",
+      "schedule": ["at any time"]
+    },
+    {
+      "description": "web-common git tag: a PR per new tag, outside the weekly schedule",
+      "matchManagers": ["npm"],
+      "matchDepNames": ["gtfs-zone-web-common"],
+      "groupName": null,
+      "schedule": ["at any time"]
+    }
+  ]
+}

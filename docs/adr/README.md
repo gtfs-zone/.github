@@ -18,3 +18,4 @@ with the change it describes, and add it below.
 | [0006](0006-versioned-deploys.md) | Versioned deploys and per-PR previews on Cloudflare | proposed |
 | [0007](0007-testing-policy.md) | Vitest for logic, Playwright and Argos for UI | accepted |
 | [0008](0008-reusable-workflows.md) | Reusable workflows in the org repo | accepted |
+| [0009](0009-renovate.md) | Dependency updates through one shared Renovate preset | accepted |
