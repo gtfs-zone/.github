@@ -1,0 +1,21 @@
+name: Vulnerability scan
+
+# Scans pnpm-lock.yaml with scripts/vuln-gate.sh and fails on any critical finding.
+# On main, the result is pushed to status.gtfs.zone.
+
+on:
+  push:
+  pull_request:
+  # Daily, so advisories published after the last push still show up.
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  vuln-scan:
+    uses: gtfs-zone/.github/.github/workflows/vuln-scan.yml@6cfbf656f4bddd65d5a5d9bd7a1ea4302a9d870a # main
+    secrets:
+      gatus-token: ${{ secrets.GATUS_VULN_SCAN_TOKEN }}
