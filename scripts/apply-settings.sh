@@ -5,15 +5,17 @@
 # branches deleted on merge. Each repo in settings/rulesets.json also gets the
 # "main" ruleset on its default branch: PR required (no approval, merge
 # commit only), no force push or deletion, and its listed checks required.
-# The GitHub Actions app bypasses the ruleset so release.yml can push the
-# bump commit and tag. With --dry-run, prints each request instead of sending.
+# The gtfs-zone-release GitHub App bypasses the ruleset so release.yml can
+# push the bump commit and tag; while the app does not exist, the ruleset has
+# no bypass actor. With --dry-run, prints each request instead of sending.
 #
 #   scripts/apply-settings.sh [--dry-run]
 set -eu
 
 ORG=gtfs-zone
 RULESET_NAME=main
-# GitHub Actions app: the bypass actor, and the source the required checks must come from.
+RELEASE_APP_SLUG=gtfs-zone-release
+# GitHub Actions app: the source the required checks must come from.
 ACTIONS_APP_ID=15368
 RULESETS="$(cd "$(dirname "$0")/.." && pwd)/settings/rulesets.json"
 
@@ -46,12 +48,13 @@ repo_settings() {
 
 # Ruleset body for one repo: ruleset <repo>
 ruleset() {
-  jq --arg repo "$1" --arg name "$RULESET_NAME" --argjson app "$ACTIONS_APP_ID" '{
+  jq --arg repo "$1" --arg name "$RULESET_NAME" --argjson app "$ACTIONS_APP_ID" \
+    --argjson bypass "$bypass" '{
     name: $name,
     target: "branch",
     enforcement: "active",
     conditions: { ref_name: { include: ["~DEFAULT_BRANCH"], exclude: [] } },
-    bypass_actors: [{ actor_id: $app, actor_type: "Integration", bypass_mode: "always" }],
+    bypass_actors: $bypass,
     rules: [
       { type: "deletion" },
       { type: "non_fast_forward" },
@@ -69,6 +72,14 @@ ruleset() {
     ]
   }' "$RULESETS"
 }
+
+if release_app_id=$(gh api "apps/$RELEASE_APP_SLUG" --jq .id 2> /dev/null); then
+  bypass=$(jq -n --argjson id "$release_app_id" \
+    '[{ actor_id: $id, actor_type: "Integration", bypass_mode: "always" }]')
+else
+  echo "[apply-settings] warning: app $RELEASE_APP_SLUG not found, rulesets get no bypass actor" >&2
+  bypass='[]'
+fi
 
 for repo in $(gh repo list "$ORG" --limit 200 --source --no-archived --json name --jq '.[].name'); do
   repo_settings | send PATCH "repos/$ORG/$repo"
