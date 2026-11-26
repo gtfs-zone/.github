@@ -40,6 +40,9 @@ share one config across repos and does not follow `github:` git tags in
 - npm and uv (`pep621`): one grouped PR per ecosystem for minor and patch
   updates, Monday 00:00 to 04:00 UTC; majors get their own PRs on the same
   schedule
+- npm releases wait 3 days (`minimumReleaseAge`) before Renovate proposes
+  them, so a version pulled soon after publish never lands; web-common is
+  exempt
 - GitHub Actions: one grouped PR a week, majors included; digests pinned
   through `helpers:pinGitHubActionDigests`
 - Lock file maintenance (`pnpm-lock.yaml`, `uv.lock`) on the 1st of each

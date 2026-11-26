@@ -13,6 +13,11 @@
   },
   "packageRules": [
     {
+      "description": "npm: wait 3 days after a release before proposing it",
+      "matchManagers": ["npm"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
       "description": "npm: one weekly PR for minor and patch updates",
       "matchManagers": ["npm"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
@@ -41,6 +46,7 @@
       "matchManagers": ["npm"],
       "matchDepNames": ["gtfs-zone-web-common"],
       "groupName": null,
+      "minimumReleaseAge": null,
       "schedule": ["at any time"]
     }
   ]
