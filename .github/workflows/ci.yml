@@ -1,0 +1,19 @@
+name: CI
+
+# Runs this repo's own reusable workflows against it.
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  commits:
+    uses: ./.github/workflows/commit-check.yml
+
+  docs:
+    uses: ./.github/workflows/docs-check.yml

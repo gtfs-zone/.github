@@ -1,0 +1,26 @@
+name: Check
+
+# On a push to a branch or a pull request: runs the node check and the
+# agents check, and on a pull request the commit check. Deploy workflows call
+# this workflow before they build.
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: gtfs-zone/.github/.github/workflows/node-check.yml@6cfbf656f4bddd65d5a5d9bd7a1ea4302a9d870a # main
+
+  commits:
+    if: github.event_name == 'pull_request'
+    uses: gtfs-zone/.github/.github/workflows/commit-check.yml@6cfbf656f4bddd65d5a5d9bd7a1ea4302a9d870a # main
+
+  agents:
+    uses: gtfs-zone/.github/.github/workflows/agents-check.yml@6cfbf656f4bddd65d5a5d9bd7a1ea4302a9d870a # main
