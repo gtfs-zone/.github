@@ -1,0 +1,7 @@
+{
+  ".github": ["commits / commits", "docs / markdownlint"],
+  "gtfs-zone-editor": ["check / check", "commits / commits", "agents / agents"],
+  "gtfs-zone-homepage": ["check / check", "commits / commits"],
+  "gtfs-zone-rt-accuracy": ["check / check", "commits / commits"],
+  "gtfs-zone-web-common": ["check / check", "commits / commits"]
+}
