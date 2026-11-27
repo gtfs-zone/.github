@@ -19,3 +19,4 @@ with the change it describes, and add it below.
 | [0007](0007-testing-policy.md) | Vitest for logic, Playwright and Argos for UI | accepted |
 | [0008](0008-reusable-workflows.md) | Reusable workflows in the org repo | accepted |
 | [0009](0009-renovate.md) | Dependency updates through one shared Renovate preset | accepted |
+| [0010](0010-mani-and-mise.md) | mani for tasks across repos, mise for each repo's toolchain | accepted |

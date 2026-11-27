@@ -24,6 +24,13 @@
       "groupName": "npm dependencies"
     },
     {
+      "description": "pnpm: .mise.toml and packageManager in one PR, so node-check sees them agree",
+      "matchManagers": ["mise", "npm"],
+      "matchDepNames": ["pnpm"],
+      "minimumReleaseAge": "3 days",
+      "groupName": "pnpm"
+    },
+    {
       "description": "Python (uv): one weekly PR for minor and patch updates",
       "matchManagers": ["pep621"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
