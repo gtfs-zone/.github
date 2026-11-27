@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   vuln-scan:
-    uses: gtfs-zone/.github/.github/workflows/vuln-scan.yml@8575dd846be98ade2c30822fd296c87fbf013053 # main
+    uses: gtfs-zone/.github/.github/workflows/vuln-scan.yml@ed1f371c0a094ac56ceb2a05e1c83f79fc719838 # main
     with:
       lockfile: uv.lock
     secrets:
