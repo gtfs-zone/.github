@@ -1,7 +1,7 @@
 name: Python check
 
-# Installs uv and runs scripts/check.sh. uv fetches its own interpreter when
-# the runner's python does not match requires-python.
+# Installs python and uv with mise (versions from the caller's .mise.toml)
+# and runs scripts/check.sh.
 
 on:
   workflow_call:
@@ -19,8 +19,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: Install python and uv
+        uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
 
       - name: Check
         run: scripts/check.sh
