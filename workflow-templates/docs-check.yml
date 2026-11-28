@@ -13,4 +13,4 @@ permissions:
 
 jobs:
   docs:
-    uses: gtfs-zone/.github/.github/workflows/docs-check.yml@ed1f371c0a094ac56ceb2a05e1c83f79fc719838 # main
+    uses: gtfs-zone/.github/.github/workflows/docs-check.yml@d8f10454d1c5156283f096ebded47d4b56af80f5 # main
